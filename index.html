@@ -1,0 +1,1300 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Al&Ni Studios – New Year Wishes</title>
+
+  <!-- Tailwind (tek dosya için CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#E63946',
+            softwhite: '#F1FAEE',
+            deep: '#1D3557',
+            ice: '#A8DADC',
+            gold: '#FFD166',
+            mint: '#06D6A0',
+          },
+          boxShadow: {
+            glass: '0 10px 30px rgba(0,0,0,.45)',
+            glow: '0 0 25px rgba(230,57,70,.35), 0 0 60px rgba(255,209,102,.18)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root{
+      --bg0:#0b1020;
+      --bg1:#0f1830;
+      --glass: rgba(255,255,255,.06);
+      --glass2: rgba(255,255,255,.10);
+      --stroke: rgba(255,255,255,.10);
+      --txt: rgba(241,250,238,.92);
+      --muted: rgba(241,250,238,.70);
+    }
+
+    /* Arka plan + neon glow */
+    body{
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(255,209,102,.10), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(6,214,160,.10), transparent 60%),
+        radial-gradient(800px 500px at 50% 90%, rgba(230,57,70,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color: var(--txt);
+      overflow-x: hidden;
+    }
+
+    /* Cam efekt */
+    .glass{
+      background: var(--glass);
+      border: 1px solid var(--stroke);
+      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .glass-strong{
+      background: var(--glass2);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 16px 60px rgba(0,0,0,.55);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    /* Yılbaşı ışıkları çizgisi */
+    .string-lights{
+      position:absolute; left:0; right:0; top:-10px; height:90px;
+      pointer-events:none;
+      filter: drop-shadow(0 0 20px rgba(255,209,102,.18));
+      opacity:.9;
+    }
+
+    /* Yavaş kar */
+    #snow{
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .85;
+    }
+
+    /* Ağaç alanı */
+    .tree-wrap{
+      position: relative;
+      width: min(560px, 92vw);
+      aspect-ratio: 1 / 1.12;
+      margin-inline: auto;
+      transform-style: preserve-3d;
+    }
+
+    /* Ağaç svg parıltı */
+    .tree-glow{
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,.55))
+              drop-shadow(0 0 26px rgba(6,214,160,.20))
+              drop-shadow(0 0 18px rgba(255,209,102,.16));
+    }
+
+    /* Not (süs) */
+    .ornament{
+      position:absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      user-select:none;
+      border: 1px solid rgba(255,255,255,.20);
+      box-shadow: 0 10px 24px rgba(0,0,0,.40);
+      transform: translate(-50%, -50%);
+      transition: transform .18s ease, filter .18s ease;
+      overflow:hidden;
+    }
+    .ornament::before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.65), transparent 35%);
+      opacity:.55;
+      pointer-events:none;
+    }
+    .ornament:hover{
+      transform: translate(-50%, -50%) scale(1.10);
+      filter: drop-shadow(0 0 18px rgba(255,255,255,.18));
+    }
+
+    /* Pulse/parıldama */
+    @keyframes pulseSoft{
+      0%,100% { box-shadow: 0 10px 24px rgba(0,0,0,.40), 0 0 0 rgba(255,255,255,0); }
+      50% { box-shadow: 0 10px 24px rgba(0,0,0,.40), 0 0 18px rgba(255,255,255,.15); }
+    }
+    .pulse{ animation: pulseSoft 2.8s ease-in-out infinite; }
+
+    /* Kişisel dilek altın ışıltı */
+    .mine{
+      border-color: rgba(255,209,102,.75) !important;
+      box-shadow: 0 10px 28px rgba(0,0,0,.45), 0 0 22px rgba(255,209,102,.28), 0 0 55px rgba(255,209,102,.14) !important;
+    }
+
+    /* Tooltip */
+    .tip{
+      position:absolute;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 12px;
+      color: rgba(241,250,238,.92);
+      max-width: 220px;
+      transform: translate(-50%, calc(-100% - 10px));
+      pointer-events:none;
+      opacity:0;
+      transition: opacity .15s ease, transform .15s ease;
+      z-index: 30;
+      white-space: normal;
+    }
+    .tip.show{
+      opacity:1;
+      transform: translate(-50%, calc(-100% - 14px));
+    }
+
+    /* Modal */
+    .overlay{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      z-index: 50;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+    }
+    .overlay.show{ display:flex; }
+
+    /* PC’de sağdan slide panel, mobilde tam ekran */
+    .panel{
+      width: min(920px, 96vw);
+      max-height: min(86vh, 780px);
+      border-radius: 22px;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      transform: translateY(8px) scale(.985);
+      opacity:0;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+    .overlay.show .panel{
+      transform: translateY(0) scale(1);
+      opacity:1;
+    }
+    @media (max-width: 840px){
+      .panel{
+        width: 100%;
+        height: 92vh;
+        max-height: 92vh;
+        grid-template-columns: 1fr;
+        border-radius: 20px;
+      }
+    }
+
+    /* Scrollbar (nazik) */
+    .nice-scroll::-webkit-scrollbar{ width: 10px; }
+    .nice-scroll::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.12);
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,0);
+      background-clip: content-box;
+    }
+
+    /* Mini confetti */
+    .confetti{
+      position: fixed;
+      width: 8px; height: 14px;
+      border-radius: 3px;
+      z-index: 80;
+      pointer-events:none;
+      opacity: .95;
+      transform: translate(-50%, -50%);
+      animation: pop 850ms ease-out forwards;
+      filter: drop-shadow(0 8px 14px rgba(0,0,0,.35));
+    }
+    @keyframes pop{
+      0%{ transform: translate(-50%,-50%) scale(1); opacity:1; }
+      100%{ transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(240deg) scale(.85); opacity:0; }
+    }
+
+    /* İlk açılış “notlar düşüyor” hissi */
+    @keyframes dropIn{
+      0%{ transform: translate(-50%, -50%) translateY(-120px) scale(.7); opacity:0; }
+      100%{ transform: translate(-50%, -50%) translateY(0) scale(1); opacity:1; }
+    }
+    .drop{ animation: dropIn 700ms cubic-bezier(.2,.9,.2,1) both; }
+  </style>
+</head>
+
+<body class="min-h-screen">
+  <canvas id="snow"></canvas>
+
+  <!-- Header -->
+  <header class="relative z-10">
+    <div class="mx-auto max-w-6xl px-4 pt-6">
+      <div class="glass rounded-2xl px-4 py-3 md:px-5 md:py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-2xl bg-white/10 border border-white/10 grid place-items-center shadow-glass">
+            <span class="text-lg">🎄</span>
+          </div>
+          <div>
+            <div class="font-semibold tracking-tight">Al&Ni Studios – New Year Wishes</div>
+            <div class="text-xs text-white/60">Kış teması • Dilek ağacı • Yorum & cevap</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="soundBtn" class="hidden sm:flex items-center gap-2 rounded-xl px-3 py-2 glass hover:bg-white/10 transition">
+            <span id="soundIcon">🔈</span>
+            <span class="text-sm text-white/80">Ambience</span>
+          </button>
+
+          <button id="nickBtn" class="flex items-center gap-2 rounded-xl px-3 py-2 glass hover:bg-white/10 transition">
+            <span class="text-lg">🧑‍🎄</span>
+            <span id="nickLabel" class="text-sm text-white/90">Takma ad seç</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Neon string lights -->
+    <svg class="string-lights" viewBox="0 0 1200 140" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="wire" x1="0" x2="1">
+          <stop offset="0" stop-color="rgba(255,255,255,.14)"/>
+          <stop offset="1" stop-color="rgba(255,255,255,.06)"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="b"/>
+          <feMerge>
+            <feMergeNode in="b"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <path d="M0,70 C220,20 420,120 600,70 C780,20 980,120 1200,70"
+            fill="none" stroke="url(#wire)" stroke-width="3" opacity=".8"/>
+      <!-- bulbs -->
+      <g filter="url(#glow)" opacity=".95">
+        <circle cx="120" cy="52" r="6" fill="rgba(230,57,70,.9)"/>
+        <circle cx="230" cy="86" r="6" fill="rgba(255,209,102,.95)"/>
+        <circle cx="345" cy="56" r="6" fill="rgba(6,214,160,.9)"/>
+        <circle cx="470" cy="92" r="6" fill="rgba(168,218,220,.9)"/>
+        <circle cx="600" cy="64" r="6" fill="rgba(255,209,102,.95)"/>
+        <circle cx="730" cy="92" r="6" fill="rgba(230,57,70,.9)"/>
+        <circle cx="860" cy="58" r="6" fill="rgba(6,214,160,.9)"/>
+        <circle cx="980" cy="86" r="6" fill="rgba(168,218,220,.9)"/>
+        <circle cx="1090" cy="52" r="6" fill="rgba(255,209,102,.95)"/>
+      </g>
+    </svg>
+  </header>
+
+  <!-- Main -->
+  <main class="relative z-10">
+    <div class="mx-auto max-w-6xl px-4 py-8 md:py-10">
+      <div class="grid gap-6 lg:grid-cols-[1fr,360px] items-start">
+        <!-- Tree Card -->
+        <section class="glass-strong rounded-3xl p-4 md:p-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h1 class="text-xl md:text-2xl font-semibold tracking-tight">Dilek Ağacı</h1>
+              <p class="text-sm text-white/70 mt-1">
+                Ağaçta toplam <span class="font-semibold text-white/85">30 not</span> görünür.
+                Her girişte karışır; <span class="text-amber-200/90">kendi dileğin</span> sabit kalır.
+              </p>
+            </div>
+            <div class="hidden md:flex items-center gap-2">
+              <span class="text-xs text-white/55">Durum:</span>
+              <span id="statusPill" class="text-xs px-3 py-1 rounded-full glass border border-white/10">Bağlanıyor…</span>
+            </div>
+          </div>
+
+          <div class="mt-6 grid place-items-center">
+            <div class="tree-wrap" id="treeWrap">
+              <!-- Tree SVG -->
+              <svg class="tree-glow w-full h-full" viewBox="0 0 520 600" aria-label="Yılbaşı Ağacı">
+                <defs>
+                  <linearGradient id="treeGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="rgba(6,214,160,.55)"/>
+                    <stop offset="1" stop-color="rgba(6,214,160,.18)"/>
+                  </linearGradient>
+                  <linearGradient id="treeGrad2" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="rgba(168,218,220,.16)"/>
+                    <stop offset="1" stop-color="rgba(255,209,102,.06)"/>
+                  </linearGradient>
+                  <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="8" result="b"/>
+                    <feOffset dy="12" result="o"/>
+                    <feMerge>
+                      <feMergeNode in="o"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <!-- Tree layers -->
+                <g filter="url(#softShadow)">
+                  <path d="M260 40 L120 210 Q260 170 400 210 Z" fill="url(#treeGrad2)" stroke="rgba(255,255,255,.06)"/>
+                  <path d="M260 80 L90 290 Q260 245 430 290 Z" fill="url(#treeGrad)" stroke="rgba(255,255,255,.08)"/>
+                  <path d="M260 140 L70 380 Q260 330 450 380 Z" fill="rgba(6,214,160,.22)" stroke="rgba(255,255,255,.10)"/>
+                  <path d="M260 210 L95 470 Q260 425 425 470 Z" fill="rgba(6,214,160,.18)" stroke="rgba(255,255,255,.10)"/>
+                  <!-- snow cap -->
+                  <path d="M260 38 Q240 64 220 62 Q250 86 280 62 Q300 74 320 62 Q300 46 260 38 Z"
+                        fill="rgba(241,250,238,.55)" stroke="rgba(255,255,255,.12)"/>
+                </g>
+
+                <!-- trunk -->
+                <rect x="230" y="470" width="60" height="70" rx="14"
+                      fill="rgba(241,250,238,.12)" stroke="rgba(255,255,255,.14)"/>
+                <rect x="222" y="536" width="76" height="20" rx="10"
+                      fill="rgba(241,250,238,.10)" stroke="rgba(255,255,255,.12)"/>
+
+                <!-- star -->
+                <g transform="translate(260 26)">
+                  <path d="M0,-18 L6,-4 L22,-4 L9,5 L14,20 L0,11 L-14,20 L-9,5 L-22,-4 L-6,-4 Z"
+                        fill="rgba(255,209,102,.95)" stroke="rgba(255,255,255,.22)"/>
+                </g>
+              </svg>
+
+              <!-- tooltip -->
+              <div id="tooltip" class="tip glass-strong"></div>
+
+              <!-- ornaments injected here -->
+            </div>
+          </div>
+
+          <div class="mt-6 flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+            <button id="addWishBtn"
+              class="rounded-2xl px-5 py-3 font-semibold tracking-tight text-white
+                     bg-primary/90 hover:bg-primary transition shadow-glow
+                     border border-white/10">
+              🎁 Dilek Ekle / Güncelle
+            </button>
+
+            <div class="flex items-center gap-3 text-xs text-white/65">
+              <span class="inline-flex items-center gap-2 glass rounded-full px-3 py-2 border border-white/10">
+                <span class="h-2 w-2 rounded-full bg-emerald-400/80"></span>
+                <span>Karışık görünüm (30 not)</span>
+              </span>
+              <span class="hidden md:inline-flex items-center gap-2 glass rounded-full px-3 py-2 border border-white/10">
+                <span class="h-2 w-2 rounded-full bg-amber-300/80"></span>
+                <span>Senin notun altın ışıltılı</span>
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Info / Actions -->
+        <aside class="glass rounded-3xl p-4 md:p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm text-white/65">Hoş geldin</div>
+              <div id="helloName" class="text-lg font-semibold mt-1">—</div>
+            </div>
+            <div class="h-12 w-12 rounded-2xl glass border border-white/10 grid place-items-center">
+              <span class="text-xl">❄️</span>
+            </div>
+          </div>
+
+          <div class="mt-5 space-y-3 text-sm text-white/70 leading-relaxed">
+            <div class="glass rounded-2xl p-4 border border-white/10">
+              <div class="font-semibold text-white/85 mb-1">Nasıl çalışır?</div>
+              <ul class="list-disc pl-5 space-y-1">
+                <li>Girişte takma ad seçersin.</li>
+                <li>Dilek ekler/güncellersin (sende sabit görünür).</li>
+                <li>Dileklere yorum atar, yorumlara 1 seviye cevap verebilirsin.</li>
+              </ul>
+            </div>
+
+            <div class="glass rounded-2xl p-4 border border-white/10">
+              <div class="font-semibold text-white/85 mb-1">Not</div>
+              <p>
+                Her girişte diğer kullanıcıların notları rastgele seçilip karıştırılır.
+                Kendi notun her zaman ağaçta kalır.
+              </p>
+            </div>
+
+            <button id="refreshBtn"
+              class="w-full rounded-2xl px-4 py-3 glass hover:bg-white/10 transition border border-white/10 font-semibold">
+              🔄 Yenile / Karıştır
+            </button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="relative z-10">
+    <div class="mx-auto max-w-6xl px-4 pb-8">
+      <div class="glass rounded-2xl px-4 py-3 flex items-center justify-between">
+        <div class="text-sm text-white/70">Powered by <span class="font-semibold text-white/85">Al&Ni Studios</span></div>
+        <div class="flex items-center gap-3 text-lg">
+          <span title="Hediye">🎁</span>
+          <span title="Çan">🔔</span>
+          <span title="Kar tanesi">❄️</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Nick Modal -->
+  <div id="nickOverlay" class="overlay">
+    <div class="panel glass-strong">
+      <div class="p-5 md:p-7 border-b border-white/10 md:border-b-0 md:border-r border-white/10">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-2xl font-semibold">Takma adını seç</div>
+            <div class="text-sm text-white/70 mt-1">Takma adını istediğin zaman değiştirebilirsin.</div>
+          </div>
+          <button class="closeNick text-white/70 hover:text-white text-2xl leading-none">×</button>
+        </div>
+
+        <div class="mt-6 glass rounded-2xl p-4 border border-white/10">
+          <label class="text-sm text-white/80">Takma ad</label>
+          <input id="nickInput" maxlength="20"
+                 class="mt-2 w-full rounded-2xl bg-black/25 border border-white/10 px-4 py-3 outline-none focus:border-white/25"
+                 placeholder="örn. Alican, SnowKing, Prenses…" />
+          <div class="text-xs text-white/55 mt-2">3–20 karakter. Emojilere izin var 🙂</div>
+        </div>
+
+        <div class="mt-5 flex gap-3">
+          <button id="saveNickBtn"
+            class="flex-1 rounded-2xl px-4 py-3 font-semibold bg-primary/90 hover:bg-primary border border-white/10 shadow-glow">
+            Kaydet
+          </button>
+          <button class="closeNick flex-1 rounded-2xl px-4 py-3 font-semibold glass hover:bg-white/10 border border-white/10">
+            Vazgeç
+          </button>
+        </div>
+
+        <div class="mt-6 text-xs text-white/50">
+          Güvenli not: Takma ad cihazında saklanır (localStorage). Dilekler ve yorumlar Firestore’da tutulur.
+        </div>
+      </div>
+
+      <div class="hidden md:block p-7">
+        <div class="text-sm text-white/70">🎄 İpucu</div>
+        <div class="mt-2 text-white/85 font-semibold text-xl">“Bir dilek bırak, bir mucize yakala.”</div>
+        <div class="mt-4 glass rounded-2xl p-4 border border-white/10 text-sm text-white/70">
+          Dilekleri görmek için süslere tıkla. Yorumlara cevap vermek için “Cevapla” kullan.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wish Modal -->
+  <div id="wishOverlay" class="overlay">
+    <div class="panel glass-strong">
+      <!-- Left: Wish detail -->
+      <div class="p-5 md:p-7 border-b md:border-b-0 md:border-r border-white/10 flex flex-col">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-sm text-white/60">Dilek sahibi</div>
+            <div id="wishOwner" class="text-xl font-semibold">—</div>
+          </div>
+          <button id="closeWish" class="text-white/70 hover:text-white text-2xl leading-none">×</button>
+        </div>
+
+        <div class="mt-5 glass rounded-2xl p-4 border border-white/10">
+          <div class="text-sm text-white/60">Dilek</div>
+          <div id="wishText" class="mt-2 text-white/90 leading-relaxed whitespace-pre-wrap">—</div>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between text-xs text-white/55">
+          <div id="wishMeta">—</div>
+          <button id="openOnTreeBtn" class="glass px-3 py-2 rounded-full border border-white/10 hover:bg-white/10 transition">
+            🌟 Ağaçta Göster
+          </button>
+        </div>
+
+        <div class="mt-5 glass rounded-2xl p-4 border border-white/10">
+          <div class="flex items-center justify-between">
+            <div class="font-semibold text-white/85">Yorum ekle</div>
+            <div class="text-xs text-white/55">1 seviye cevap</div>
+          </div>
+          <textarea id="commentInput"
+            class="mt-3 w-full min-h-[92px] rounded-2xl bg-black/25 border border-white/10 px-4 py-3 outline-none focus:border-white/25"
+            placeholder="Yorumunu yaz…"></textarea>
+          <div class="mt-3 flex items-center justify-between gap-3">
+            <div id="replyHint" class="text-xs text-white/60 hidden">
+              Cevap veriyorsun: <span id="replyToName" class="text-white/85 font-semibold">—</span>
+              <button id="cancelReply" class="ml-2 underline text-white/70 hover:text-white">iptal</button>
+            </div>
+            <div class="ml-auto flex gap-2">
+              <button id="sendCommentBtn"
+                class="rounded-2xl px-4 py-2 font-semibold bg-primary/90 hover:bg-primary border border-white/10 shadow-glow">
+                Gönder
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Comments -->
+      <div class="p-5 md:p-7 overflow-auto nice-scroll">
+        <div class="flex items-center justify-between">
+          <div class="text-lg font-semibold">Yorumlar</div>
+          <div id="commentCount" class="text-sm text-white/60">0</div>
+        </div>
+        <div id="commentsList" class="mt-4 space-y-3"></div>
+
+        <div class="mt-6 text-xs text-white/50">
+          Kural: Saygılı ol. Spam ve küfür içerikleri kaldırılabilir.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Update Wish Modal -->
+  <div id="addOverlay" class="overlay">
+    <div class="panel glass-strong">
+      <div class="p-5 md:p-7 border-b md:border-b-0 md:border-r border-white/10">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-2xl font-semibold">Dileğini yaz</div>
+            <div class="text-sm text-white/70 mt-1">Kısa, net, kalpten. ✨</div>
+          </div>
+          <button id="closeAdd" class="text-white/70 hover:text-white text-2xl leading-none">×</button>
+        </div>
+
+        <div class="mt-6 glass rounded-2xl p-4 border border-white/10">
+          <label class="text-sm text-white/80">Dilek metni</label>
+          <textarea id="wishInput" maxlength="220"
+            class="mt-2 w-full min-h-[140px] rounded-2xl bg-black/25 border border-white/10 px-4 py-3 outline-none focus:border-white/25"
+            placeholder="2026 için dileğini yaz…"></textarea>
+          <div class="mt-2 flex items-center justify-between text-xs text-white/55">
+            <span>En fazla 220 karakter</span>
+            <span id="wishLen">0/220</span>
+          </div>
+        </div>
+
+        <div class="mt-5 flex gap-3">
+          <button id="saveWishBtn"
+            class="flex-1 rounded-2xl px-4 py-3 font-semibold bg-primary/90 hover:bg-primary border border-white/10 shadow-glow">
+            Kaydet
+          </button>
+          <button id="cancelAdd"
+            class="flex-1 rounded-2xl px-4 py-3 font-semibold glass hover:bg-white/10 border border-white/10">
+            Vazgeç
+          </button>
+        </div>
+
+        <div class="mt-6 text-xs text-white/50">
+          Dileğini güncellersen eski dileğin “senin notun” olarak yeni metinle değişir.
+        </div>
+      </div>
+
+      <div class="hidden md:block p-7">
+        <div class="text-sm text-white/70">❄️ Tasarım</div>
+        <div class="mt-2 text-white/85 font-semibold text-xl">Koyu tema + neon ışıklar</div>
+        <div class="mt-4 glass rounded-2xl p-4 border border-white/10 text-sm text-white/70">
+          Ağaç üzerinde toplam 30 not görünür. Her yenilemede diğer notlar karışır.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase + App -->
+  <script type="module">
+    /**********************
+     * Firebase Init
+     **********************/
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc,
+      query, orderBy, limit, serverTimestamp, where
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBxL_sjldzoaIwDjPR0JFPobATuDG07E3Y",
+      authDomain: "yilbasi-13720.firebaseapp.com",
+      projectId: "yilbasi-13720",
+      storageBucket: "yilbasi-13720.firebasestorage.app",
+      messagingSenderId: "1041813840848",
+      appId: "1:1041813840848:web:2b96cfa3c9ba29b93c4fd5",
+      measurementId: "G-WX6CYELCHZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    /**********************
+     * State + Helpers
+     **********************/
+    const LS = {
+      uid: "alni_ny_uid_v1",
+      nick: "alni_ny_nick_v1"
+    };
+
+    const state = {
+      uid: null,
+      nick: null,
+      myWishId: null,
+      wishesOnTree: [],   // 30 wish docs (id + data)
+      wishIndexById: new Map(),
+      currentWish: null, // opened wish {id,data}
+      replyTo: null,     // comment id for reply
+      initialDropDone: false
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function uuid(){
+      return "u_" + crypto.getRandomValues(new Uint32Array(4)).join("_");
+    }
+    function clampStr(s, n){ return (s || "").trim().slice(0, n); }
+    function safeText(s){ return (s || "").toString(); }
+    function fmtDate(ts){
+      try{
+        const d = ts?.toDate ? ts.toDate() : (ts instanceof Date ? ts : null);
+        if(!d) return "—";
+        return d.toLocaleString("tr-TR", { dateStyle:"medium", timeStyle:"short" });
+      }catch{ return "—"; }
+    }
+    function shortPreview(text){
+      const t = safeText(text).replace(/\s+/g," ").trim();
+      if(!t) return "";
+      return t.length > 70 ? t.slice(0, 70) + "…" : t;
+    }
+    function setStatus(ok, text){
+      const pill = $("statusPill");
+      if(!pill) return;
+      pill.textContent = text;
+      pill.className = "text-xs px-3 py-1 rounded-full border border-white/10 " + (ok ? "bg-emerald-500/15" : "bg-amber-400/15") + " glass";
+    }
+
+    function ensureIdentity(){
+      let uid = localStorage.getItem(LS.uid);
+      if(!uid){
+        uid = uuid();
+        localStorage.setItem(LS.uid, uid);
+      }
+      state.uid = uid;
+
+      const nick = localStorage.getItem(LS.nick);
+      state.nick = nick ? nick : null;
+      syncNickUI();
+      syncAddWishButton()
+    }
+
+    function syncNickUI(){
+      $("nickLabel").textContent = state.nick ? state.nick : "Takma ad seç";
+      $("helloName").textContent = state.nick ? state.nick : "—";
+    }
+
+    function openOverlay(el){ el.classList.add("show"); }
+    function closeOverlay(el){ el.classList.remove("show"); }
+
+    function toastConfetti(x, y){
+      const colors = ["rgba(230,57,70,.95)","rgba(255,209,102,.95)","rgba(6,214,160,.95)","rgba(168,218,220,.95)"];
+      for(let i=0;i<14;i++){
+        const d = document.createElement("div");
+        d.className = "confetti";
+        d.style.left = x + "px";
+        d.style.top = y + "px";
+        d.style.background = colors[(Math.random()*colors.length)|0];
+        d.style.setProperty("--dx", ((Math.random()*220)-110).toFixed(0)+"px");
+        d.style.setProperty("--dy", ((Math.random()*180)-140).toFixed(0)+"px");
+        d.style.width = (6 + Math.random()*6).toFixed(0) + "px";
+        d.style.height = (10 + Math.random()*10).toFixed(0) + "px";
+        document.body.appendChild(d);
+        setTimeout(()=>d.remove(), 900);
+      }
+    }
+    
+    function syncAddWishButton(){
+        const btn = document.getElementById("addWishBtn");
+        if(!btn) return;
+
+        if(state.nick){
+            btn.disabled = false;
+            btn.classList.remove("opacity-50","cursor-not-allowed");
+        }else{
+            btn.disabled = true;
+            btn.classList.add("opacity-50","cursor-not-allowed");
+        }
+    }
+
+    /**********************
+     * Firestore Model
+     * - wishes (collection)
+     *   { text, author, uid, createdAt, updatedAt }
+     * - wishes/{wishId}/comments (subcollection)
+     *   { text, author, uid, createdAt, parentId }  // parentId null => top
+     **********************/
+
+    async function getMyWish(){
+      const qy = query(collection(db, "wishes"), where("uid", "==", state.uid), limit(1));
+      const snap = await getDocs(qy);
+      if(snap.empty) return null;
+      const doc0 = snap.docs[0];
+      return { id: doc0.id, data: doc0.data() };
+    }
+
+    async function saveMyWish(text){
+      const t = clampStr(text, 220);
+      if(!t) throw new Error("Dilek boş olamaz.");
+
+      // tek dilek kuralı: uid ile bir tane
+      const existing = await getMyWish();
+      if(existing){
+        await updateDoc(doc(db, "wishes", existing.id), {
+          text: t,
+          author: state.nick,
+          updatedAt: serverTimestamp()
+        });
+        state.myWishId = existing.id;
+        return existing.id;
+      }else{
+        const ref = await addDoc(collection(db, "wishes"), {
+          text: t,
+          author: state.nick,
+          uid: state.uid,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+        state.myWishId = ref.id;
+        return ref.id;
+      }
+    }
+
+    async function fetchTreeWishes(){
+      // 1) kendi dileğini al
+      const mine = await getMyWish();
+      state.myWishId = mine ? mine.id : null;
+
+      // 2) en güncel dileklerden bir havuz çek (performans için)
+      //    sonra client-side random seç
+      const poolSnap = await getDocs(query(collection(db, "wishes"), orderBy("updatedAt","desc"), limit(220)));
+      const pool = poolSnap.docs.map(d => ({ id: d.id, data: d.data() }));
+
+      // 3) mine'ı çıkar, kalanlardan random 29 seç
+      const others = pool.filter(w => !mine || w.id !== mine.id);
+
+      // Fisher-Yates shuffle
+      for(let i=others.length-1;i>0;i--){
+        const j = (Math.random()*(i+1))|0;
+        [others[i], others[j]] = [others[j], others[i]];
+      }
+      const picked = others.slice(0, 29);
+
+      // 4) toplam 30: mine varsa +29, yoksa 30 others
+      const finalList = [];
+      if(mine) finalList.push(mine);
+      finalList.push(...picked);
+      if(!mine){
+        // mine yoksa 30’a tamamla
+        finalList.splice(0, finalList.length, ...others.slice(0, 30));
+      }
+
+      // 5) Ağaçta “her girişte farklı” için ayrıca karıştır (mine sabit kalacak)
+      let mineItem = null;
+      let rest = finalList;
+      if(mine){
+        mineItem = finalList[0];
+        rest = finalList.slice(1);
+      }
+      for(let i=rest.length-1;i>0;i--){
+        const j = (Math.random()*(i+1))|0;
+        [rest[i], rest[j]] = [rest[j], rest[i]];
+      }
+      const arranged = mine ? [mineItem, ...rest] : rest;
+
+      // 6) UI için index map
+      state.wishesOnTree = arranged;
+      state.wishIndexById = new Map(arranged.map((w, idx)=>[w.id, idx]));
+    }
+
+    /**********************
+     * Tree Layout (30 slot)
+     **********************/
+    const SLOTS = [
+      // x,y in % relative to treeWrap (tuned for 520x600 view)
+      // Top area
+      {x:50,y:12},{x:44,y:16},{x:56,y:16},
+      // upper
+      {x:40,y:22},{x:50,y:24},{x:60,y:22},
+      {x:35,y:28},{x:45,y:30},{x:55,y:30},{x:65,y:28},
+      // mid
+      {x:32,y:36},{x:42,y:38},{x:50,y:40},{x:58,y:38},{x:68,y:36},
+      {x:28,y:44},{x:40,y:46},{x:50,y:48},{x:60,y:46},{x:72,y:44},
+      // lower-mid
+      {x:26,y:54},{x:38,y:56},{x:50,y:58},{x:62,y:56},{x:74,y:54},
+      // lower
+      {x:30,y:64},{x:42,y:66},{x:50,y:68},{x:58,y:66},{x:70,y:64},
+    ];
+
+    function ornamentColor(i){
+      // 3 ana renk: kırmızı / altın / yeşil (soft)
+      const palette = [
+        "rgba(230,57,70,.88)",   // red
+        "rgba(255,209,102,.88)", // gold
+        "rgba(6,214,160,.82)"    // green
+      ];
+      return palette[i % 3];
+    }
+
+    function renderTree(){
+      const wrap = $("treeWrap");
+      // temizle: sadece svg ve tooltip kalsın
+      [...wrap.querySelectorAll(".ornament")].forEach(n=>n.remove());
+
+      const tip = $("tooltip");
+      const isFirst = !state.initialDropDone;
+
+      state.wishesOnTree.forEach((w, i)=>{
+        const slot = SLOTS[i] || {x: 50, y: 50};
+        const o = document.createElement("div");
+        o.className = "ornament pulse";
+        o.style.left = slot.x + "%";
+        o.style.top = slot.y + "%";
+        o.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 38%), ${ornamentColor(i)}`;
+        o.style.borderColor = "rgba(255,255,255,.18)";
+
+        if(isFirst){
+          o.classList.add("drop");
+          o.style.animationDelay = (i*22) + "ms";
+        }
+
+        if(state.myWishId && w.id === state.myWishId){
+          o.classList.add("mine");
+        }
+
+        o.innerHTML = `<span class="text-[11px] font-semibold text-white/90">✦</span>`;
+
+        o.addEventListener("mouseenter", ()=>{
+          const txt = shortPreview(w.data?.text);
+          if(!txt) return;
+          tip.textContent = txt;
+          tip.style.left = slot.x + "%";
+          tip.style.top = slot.y + "%";
+          tip.classList.add("show");
+        });
+        o.addEventListener("mouseleave", ()=> tip.classList.remove("show"));
+
+        o.addEventListener("click", ()=>{
+          openWish(w.id);
+        });
+
+        wrap.appendChild(o);
+      });
+
+      state.initialDropDone = true;
+    }
+
+    /**********************
+     * Wish Modal + Comments
+     **********************/
+    async function openWish(wishId){
+      const w = state.wishesOnTree.find(x=>x.id===wishId);
+      if(!w) return;
+
+      state.currentWish = w;
+      state.replyTo = null;
+      $("replyHint").classList.add("hidden");
+      $("commentInput").value = "";
+
+      $("wishOwner").textContent = w.data?.author || "Anon";
+      $("wishText").textContent = w.data?.text || "—";
+      $("wishMeta").textContent = `🕒 ${fmtDate(w.data?.updatedAt || w.data?.createdAt)}`;
+
+      openOverlay($("wishOverlay"));
+      await loadComments(wishId);
+    }
+
+    function makeCommentCard({id, data}, replies){
+      const isMine = data?.uid && data.uid === state.uid;
+      const wrap = document.createElement("div");
+      wrap.className = "glass rounded-2xl p-4 border border-white/10";
+
+      const header = document.createElement("div");
+      header.className = "flex items-start justify-between gap-3";
+      header.innerHTML = `
+        <div>
+          <div class="font-semibold text-white/85">${escapeHtml(data?.author || "Anon")}
+            ${isMine ? `<span class="ml-2 text-[10px] px-2 py-1 rounded-full bg-amber-400/15 border border-amber-300/25 text-amber-200/90">sen</span>` : ``}
+          </div>
+          <div class="text-xs text-white/50 mt-1">${fmtDate(data?.createdAt)}</div>
+        </div>
+        <button class="replyBtn text-xs px-3 py-2 rounded-full glass border border-white/10 hover:bg-white/10 transition">Cevapla</button>
+      `;
+
+      const body = document.createElement("div");
+      body.className = "mt-3 text-sm text-white/80 whitespace-pre-wrap leading-relaxed";
+      body.textContent = data?.text || "";
+
+      wrap.appendChild(header);
+      wrap.appendChild(body);
+
+      // replies (1 seviye)
+      if(replies && replies.length){
+        const rwrap = document.createElement("div");
+        rwrap.className = "mt-4 pl-3 border-l border-white/10 space-y-2";
+        replies.forEach(r=>{
+          const rcard = document.createElement("div");
+          rcard.className = "glass rounded-2xl p-3 border border-white/10";
+          rcard.innerHTML = `
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="font-semibold text-white/85 text-sm">${escapeHtml(r.data?.author || "Anon")}</div>
+                <div class="text-xs text-white/50 mt-1">${fmtDate(r.data?.createdAt)}</div>
+              </div>
+            </div>
+            <div class="mt-2 text-sm text-white/80 whitespace-pre-wrap leading-relaxed"></div>
+          `;
+          rcard.querySelector("div.mt-2").textContent = r.data?.text || "";
+          rwrap.appendChild(rcard);
+        });
+        wrap.appendChild(rwrap);
+      }
+
+      // reply action
+      header.querySelector(".replyBtn").addEventListener("click", ()=>{
+        state.replyTo = id;
+        $("replyToName").textContent = data?.author || "Anon";
+        $("replyHint").classList.remove("hidden");
+        $("commentInput").focus();
+      });
+
+      return wrap;
+    }
+
+    function escapeHtml(str){
+      return (str||"").toString()
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    async function loadComments(wishId){
+      const col = collection(db, "wishes", wishId, "comments");
+      const snap = await getDocs(query(col, orderBy("createdAt","asc"), limit(200)));
+      const all = snap.docs.map(d=>({id:d.id, data:d.data()}));
+
+      const tops = all.filter(c=>!c.data?.parentId);
+      const replies = all.filter(c=>c.data?.parentId);
+
+      // group replies by parentId
+      const map = new Map();
+      replies.forEach(r=>{
+        const pid = r.data?.parentId;
+        if(!map.has(pid)) map.set(pid, []);
+        map.get(pid).push(r);
+      });
+
+      $("commentCount").textContent = String(all.length);
+      const list = $("commentsList");
+      list.innerHTML = "";
+
+      if(!tops.length){
+        const empty = document.createElement("div");
+        empty.className = "glass rounded-2xl p-4 border border-white/10 text-sm text-white/70";
+        empty.textContent = "Henüz yorum yok. İlk yorumu sen yaz ✨";
+        list.appendChild(empty);
+        return;
+      }
+
+      tops.forEach(t=>{
+        const card = makeCommentCard(t, map.get(t.id) || []);
+        list.appendChild(card);
+      });
+    }
+
+    async function sendComment(){
+      if(!state.nick){
+        openOverlay($("nickOverlay"));
+        return;
+      }
+      if(!state.currentWish) return;
+
+      const text = clampStr($("commentInput").value, 240);
+      if(!text) return;
+
+      const wishId = state.currentWish.id;
+      const col = collection(db, "wishes", wishId, "comments");
+      await addDoc(col, {
+        text,
+        author: state.nick,
+        uid: state.uid,
+        parentId: state.replyTo ? state.replyTo : null,
+        createdAt: serverTimestamp()
+      });
+
+      // mini confetti
+      const rect = $("sendCommentBtn").getBoundingClientRect();
+      toastConfetti(rect.left + rect.width/2, rect.top + rect.height/2);
+
+      // reset
+      $("commentInput").value = "";
+      state.replyTo = null;
+      $("replyHint").classList.add("hidden");
+
+      await loadComments(wishId);
+    }
+
+    /**********************
+     * UI Events
+     **********************/
+    // Nick
+    $("nickBtn").addEventListener("click", ()=>{
+      $("nickInput").value = state.nick || "";
+      openOverlay($("nickOverlay"));
+      setTimeout(()=>$("nickInput").focus(), 60);
+    });
+    document.querySelectorAll(".closeNick").forEach(b=>b.addEventListener("click", ()=>closeOverlay($("nickOverlay"))));
+    $("saveNickBtn").addEventListener("click", ()=>{
+      const val = clampStr($("nickInput").value, 20);
+      if(val.length < 3){
+        $("nickInput").focus();
+        $("nickInput").style.borderColor = "rgba(230,57,70,.55)";
+        setTimeout(()=>$("nickInput").style.borderColor = "rgba(255,255,255,.10)", 600);
+        return;
+      }
+      localStorage.setItem(LS.nick, val);
+      state.nick = val;
+      syncNickUI();
+      syncAddWishButton();
+      closeOverlay(document.getElementById("nickOverlay"));
+    });
+
+    // Add wish
+    $("addWishBtn").addEventListener("click", async () => {
+
+  if (!state.nick) {
+    openOverlay($("nickOverlay"));
+    return;
+  }
+
+  let mine = null;
+
+  try {
+    mine = await getMyWish();
+  } catch (err) {
+    console.warn("getMyWish Firestore hatası:", err);
+  }
+
+  $("wishInput").value = mine?.data?.text || "";
+  $("wishLen").textContent = `${$("wishInput").value.length}/220`;
+
+  openOverlay($("addOverlay"));
+
+  setTimeout(() => {
+    $("wishInput").focus();
+  }, 60);
+
+});
+
+    $("wishInput").addEventListener("input", ()=>{
+      $("wishLen").textContent = `${$("wishInput").value.length}/220`;
+    });
+    $("closeAdd").addEventListener("click", ()=>closeOverlay($("addOverlay")));
+    $("cancelAdd").addEventListener("click", ()=>closeOverlay($("addOverlay")));
+    $("saveWishBtn").addEventListener("click", async ()=>{
+      try{
+        if(!state.nick){
+          openOverlay($("nickOverlay"));
+          return;
+        }
+        const id = await saveMyWish($("wishInput").value);
+        closeOverlay($("addOverlay"));
+
+        // confetti
+        const rect = $("addWishBtn").getBoundingClientRect();
+        toastConfetti(rect.left + rect.width/2, rect.top + rect.height/2);
+
+        // yeniden çek + render
+        await refreshTree();
+        // kendi notunu “hemen” göstermek için, ağaç hafif sallansın (mobil hissi)
+        shakeTree();
+      }catch(e){
+        alert(e.message || "Kaydedilemedi.");
+      }
+    });
+
+    // Wish modal close
+    $("closeWish").addEventListener("click", ()=>closeOverlay($("wishOverlay")));
+    $("wishOverlay").addEventListener("click", (e)=>{
+      if(e.target === $("wishOverlay")) closeOverlay($("wishOverlay"));
+    });
+    $("nickOverlay").addEventListener("click", (e)=>{
+      if(e.target === $("nickOverlay")) closeOverlay($("nickOverlay"));
+    });
+    $("addOverlay").addEventListener("click", (e)=>{
+      if(e.target === $("addOverlay")) closeOverlay($("addOverlay"));
+    });
+
+    // Comments send
+    $("sendCommentBtn").addEventListener("click", sendComment);
+    $("commentInput").addEventListener("keydown", (e)=>{
+      if((e.ctrlKey || e.metaKey) && e.key === "Enter") sendComment();
+    });
+    $("cancelReply").addEventListener("click", (e)=>{
+      e.preventDefault();
+      state.replyTo = null;
+      $("replyHint").classList.add("hidden");
+    });
+
+    // Tree “show” button
+    $("openOnTreeBtn").addEventListener("click", ()=>{
+      closeOverlay($("wishOverlay"));
+      // ufak highlight: kendi dilekse zaten altın
+      shakeTree();
+    });
+
+    // Refresh
+    $("refreshBtn").addEventListener("click", async ()=>{
+      await refreshTree();
+      shakeTree();
+    });
+
+    // Mobile tap shake
+    $("treeWrap").addEventListener("pointerdown", ()=>{
+      if(window.matchMedia("(max-width: 840px)").matches) shakeTree();
+    });
+
+    function shakeTree(){
+      const el = $("treeWrap");
+      el.animate([
+        { transform: "rotateZ(0deg)" },
+        { transform: "rotateZ(-0.7deg)" },
+        { transform: "rotateZ(0.7deg)" },
+        { transform: "rotateZ(-0.5deg)" },
+        { transform: "rotateZ(0deg)" },
+      ], { duration: 520, easing: "cubic-bezier(.2,.8,.2,1)" });
+    }
+
+    /**********************
+     * Snow (çok yavaş)
+     **********************/
+    const snow = $("snow");
+    const ctx = snow.getContext("2d");
+    let W=0,H=0,flakes=[];
+    function resizeSnow(){
+      W = snow.width = window.innerWidth * devicePixelRatio;
+      H = snow.height = window.innerHeight * devicePixelRatio;
+      snow.style.width = window.innerWidth+"px";
+      snow.style.height = window.innerHeight+"px";
+      const count = Math.min(140, Math.max(70, Math.floor(window.innerWidth/10)));
+      flakes = Array.from({length: count}, ()=>({
+        x: Math.random()*W,
+        y: Math.random()*H,
+        r: (0.9 + Math.random()*2.2)*devicePixelRatio,
+        s: (0.18 + Math.random()*0.42)*devicePixelRatio, // speed (yavaş)
+        w: (Math.random()*0.35 - 0.175)*devicePixelRatio // drift
+      }));
+    }
+    function drawSnow(){
+      ctx.clearRect(0,0,W,H);
+      ctx.globalAlpha = 0.78;
+      for(const f of flakes){
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
+        ctx.fillStyle = "rgba(241,250,238,.85)";
+        ctx.fill();
+
+        f.y += f.s;
+        f.x += f.w;
+
+        if(f.y > H + 10) { f.y = -10; f.x = Math.random()*W; }
+        if(f.x < -10) f.x = W + 10;
+        if(f.x > W + 10) f.x = -10;
+      }
+      requestAnimationFrame(drawSnow);
+    }
+    window.addEventListener("resize", resizeSnow);
+
+    /**********************
+     * Optional ambience audio (çok düşük)
+     **********************/
+    let audio = null;
+    let audioOn = false;
+    function initAudio(){
+      if(audio) return;
+      // Çok hafif ambience (data URI yok; dış kaynak istemeden webaudio ile “soft hum”)
+      const AC = window.AudioContext || window.webkitAudioContext;
+      const ac = new AC();
+      const o = ac.createOscillator();
+      const g = ac.createGain();
+      o.type = "sine";
+      o.frequency.value = 110; // yumuşak
+      g.gain.value = 0.0;
+      o.connect(g).connect(ac.destination);
+      o.start();
+
+      audio = { ac, o, g };
+    }
+    $("soundBtn").addEventListener("click", async ()=>{
+      try{
+        initAudio();
+        if(audio.ac.state === "suspended") await audio.ac.resume();
+        audioOn = !audioOn;
+        $("soundIcon").textContent = audioOn ? "🔊" : "🔈";
+        // fade
+        const target = audioOn ? 0.012 : 0.0;
+        const now = audio.ac.currentTime;
+        audio.g.gain.cancelScheduledValues(now);
+        audio.g.gain.setValueAtTime(audio.g.gain.value, now);
+        audio.g.gain.linearRampToValueAtTime(target, now + 0.25);
+      }catch{}
+    });
+
+    /**********************
+     * Boot + Refresh
+     **********************/
+    async function refreshTree(){
+      try{
+        setStatus(true, "Yükleniyor…");
+        await fetchTreeWishes();
+        renderTree();
+        setStatus(true, "Hazır");
+      }catch(e){
+        console.error(e);
+        setStatus(false, "Bağlantı sorunu");
+      }
+    }
+
+    // Overlay ESC
+    window.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape"){
+        closeOverlay($("wishOverlay"));
+        closeOverlay($("nickOverlay"));
+        closeOverlay($("addOverlay"));
+      }
+    });
+
+    // Start
+    ensureIdentity();
+    syncAddWishButton();
+    resizeSnow();
+    drawSnow();
+
+    // Nick yoksa zorunlu modal
+    if(!state.nick){
+      openOverlay($("nickOverlay"));
+      setTimeout(()=>$("nickInput").focus(), 80);
+    }
+
+    // Firestore ping
+    try{
+      // küçük ping: project erişimi test
+      await getDocs(query(collection(db, "wishes"), limit(1)));
+      setStatus(true, "Hazır");
+    }catch(e){
+      setStatus(false, "Bağlantı sorunu");
+    }
+
+    await refreshTree();
+  </script>
+</body>
+</html>
