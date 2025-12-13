@@ -189,99 +189,67 @@
       transform: translateY(0) scale(1);
       opacity:1;
     }
-    @media (max-width: 840px){
-      .panel{
-        width: 100%;
-        height: 92vh;
-        max-height: 92vh;
-        grid-template-columns: 1fr;
-        border-radius: 20px;
-      }
-    }
+    /* =========================
+   MOBILE APP MODE
+========================= */
+@media (max-width: 840px){
 
-    @media (max-width: 840px){
-  .overlay{
-    padding: 0;
+  main > div{
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
-  .panel{
-    width: 100%;
-    height: 100dvh;
-    max-height: 100dvh;
+
+  aside{
+    display: none !important;
+  }
+
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+  header .glass{
     border-radius: 0;
   }
-}
 
-    @media (max-width: 840px){
-  .tree-wrap{
-    width: 96vw;
-    max-width: 560px;
-  }
-
-  .ornament{
-    width: 44px;
-    height: 44px;
-  }
-
-  .tip{
-    display: none; /* мобilde hover yok: tooltip kapat */
-  }
-}
-
-   @media (max-width: 420px){
-  #soundBtn{ display:none !important; } /* zaten sm altında hidden ama ekstra garanti */
-  #nickBtn{
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  #nickLabel{
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-   @media (max-width: 840px){
-  #addWishBtn{
-    width: 100%;
-  }
-}
-   @media (max-width: 840px){
   .tree-wrap{
     width: 100vw;
-    max-width: 100vw;
+    min-height: 78vh;
     aspect-ratio: auto;
-    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-}
-   @media (max-width: 840px){
+
   .ornament{
     width: 52px;
     height: 52px;
   }
-}
-   @media (max-width: 840px){
-  .overlay{
-    padding: 0;
+
+  .tip{
+    display: none;
   }
 
-  .panel{
-    width: 100vw;
-    height: 100dvh;
-    max-height: 100dvh;
-    border-radius: 0;
-    grid-template-columns: 1fr;
-  }
-}
-   @media (max-width: 840px){
   #addWishBtn{
-    width: 100%;
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    z-index: 50;
+    border-radius: 999px;
+    padding: 16px;
     font-size: 16px;
-    padding-top: 14px;
-    padding-bottom: 14px;
+  }
+
+  main{
+    padding-bottom: 100px;
+  }
+
+  footer{
+    display: none;
   }
 }
-
-
 
     /* Scrollbar (nazik) */
     .nice-scroll::-webkit-scrollbar{ width: 10px; }
